@@ -39,7 +39,7 @@ export const authOptions: AuthOptions = {
                 }
 
                 return {
-                    id: user.id.toString(), // Convert id to string
+                    id: user.id.toString(), // Ensure id is a string
                     name: user.name,
                     email: user.email,
                 };
@@ -50,7 +50,7 @@ export const authOptions: AuthOptions = {
     callbacks: {
         async jwt({ token, user }: { token: JWT; user?: User }) {
             if (user) {
-                token.id = user.id;
+                token.id = user.id; // Store user id in token
             }
             return token;
         },
@@ -60,6 +60,9 @@ export const authOptions: AuthOptions = {
             }
             return session;
         },
+    },
+    pages: {
+        signIn: "/auth/signin", // Redirect to custom sign-in page (optional)
     },
 };
 
