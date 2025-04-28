@@ -25,22 +25,19 @@ export default function Page() {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-        <form onSubmit={handleLogin}>
-    <input
-        type="email"
-    placeholder="Email"
-    onChange={(e) => setEmail(e.target.value)}
-    />
-    <input
-    type="password"
-    placeholder="Password"
-    onChange={(e) => setPassword(e.target.value)}
-    />
-    <button type="submit">Login</button>
-        </form>
-        <button onClick={() => signIn("google")}>Sign in with Google</button>
-    </div>
-        );
+        <div className="page-container">
+            <div className="card">
+                <h2 className="title">Login</h2>
+                <form onSubmit={handleLogin} className="flex flex-col gap-4 mb-6">
+                    <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}
+                        className="w-full py-2 px-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                    <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)}
+                        className="w-full py-2 px-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                    <button type="submit" className="button button-login">Login</button>
+                </form>
+                <button onClick={() => signIn("google")} className="button button-google w-full">Sign in with Google</button>
+            </div>
+        </div>
+    );
 }
+

@@ -19,3 +19,162 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.page-container {
+  /* Use regular CSS variables */
+  background-color: var(--background);
+  color: var(--foreground);
+
+  /* Tailwind @apply classes */
+  @apply flex flex-col items-center justify-center min-h-screen p-6;
+}
+
+.card {
+  @apply w-full max-w-md bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-8 mt-8;
+}
+
+.title {
+  @apply text-3xl font-bold mb-6 text-center;
+}
+
+.button-group {
+  @apply flex flex-col gap-4;
+}
+
+.button {
+  @apply w-full py-2 px-4 text-white font-semibold rounded-lg transition duration-300;
+}
+
+.button-login {
+  @apply bg-blue-600 hover:bg-blue-700;
+}
+
+.button-register {
+  @apply bg-green-600 hover:bg-green-700;
+}
+
+.button-google {
+  @apply bg-red-600 hover:bg-red-700;
+}
+
+.button-logout {
+  @apply bg-gray-800 hover:bg-gray-700;
+}
+
+.profile-image {
+  @apply rounded-full w-24 h-24 object-cover border-4 border-blue-500;
+}
+
+.email-text {
+  @apply text-center text-gray-600 dark:text-gray-400 mb-6;
+}
+
+.button-create-quiz {
+  @apply text-black bg-yellow-400 hover:bg-yellow-500;
+}
+
+.button-play-quizzes {
+  @apply text-white bg-blue-500 hover:bg-blue-600;
+}
+
+.button-leaderboard {
+  @apply text-white bg-purple-500 hover:bg-purple-600;
+}
+
+.leaderboard-list {
+  @apply flex flex-col gap-4 mt-6;
+}
+
+.leaderboard-item {
+  @apply relative flex items-center gap-4 p-4 bg-gray-100 dark:bg-zinc-800 rounded-xl shadow-sm hover:shadow-lg transition-all cursor-pointer;
+}
+
+.leaderboard-avatar {
+  @apply w-12 h-12 rounded-full object-cover border-2 border-blue-500;
+}
+
+.leaderboard-info {
+  @apply flex flex-col;
+}
+
+.hover-card {
+  @apply absolute left-20 top-1/2 transform -translate-y-1/2 z-10 bg-white dark:bg-zinc-900 p-4 rounded-xl shadow-lg transition-all opacity-0 scale-95 pointer-events-none;
+  width: 250px;
+}
+
+.group:hover .hover-card {
+  @apply opacity-100 scale-100 pointer-events-auto;
+}
+
+.hover-avatar {
+  @apply w-20 h-20 rounded-full object-cover my-2 mx-auto;
+}
+
+.button-back {
+  @apply text-white bg-gray-600 hover:bg-gray-700;
+}
+
+.input {
+  @apply w-full p-3 rounded-lg border border-gray-300 bg-white dark:bg-zinc-800 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition;
+}
+
+.error-message {
+  @apply text-red-500 text-sm mb-4;
+}
+
+.button-add {
+  @apply bg-green-500 hover:bg-green-600 text-white;
+}
+
+.quiz-question {
+  @apply p-4 bg-gray-100 dark:bg-zinc-700 rounded-lg;
+}
+
+.quiz-questions {
+  @apply mt-6;
+}
+
+.quiz-item {
+  @apply w-full;
+}
+
+.button-green {
+  @apply bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg transition;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  font-size: 1rem;
+  color: var(--foreground);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #4CAF50;
+  background-color: #fff;
+}
+
+.btn-primary {
+  padding: 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #45a049;
+}
+
+.btn-primary:active {
+  background-color: #388e3c;
+}

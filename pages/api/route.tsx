@@ -50,7 +50,7 @@ export const authOptions: AuthOptions = {
     callbacks: {
         async jwt({ token, user }: { token: JWT; user?: User }) {
             if (user) {
-                token.id = user.id; // Store user id in token
+                token.id = user.id;
             }
             return token;
         },
@@ -62,7 +62,7 @@ export const authOptions: AuthOptions = {
         },
     },
     pages: {
-        signIn: "/auth/signin", // Redirect to custom sign-in page (optional)
+        signIn: "/auth/signin",
     },
 };
 

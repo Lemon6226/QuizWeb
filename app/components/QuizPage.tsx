@@ -1,8 +1,9 @@
+// components/QuizPage.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import "../../app/globals.css";
+import "../globals.css";
 
 export default function QuizPage() {
     const router = useRouter();
@@ -24,6 +25,7 @@ export default function QuizPage() {
 
     const handleSubmit = () => {
         setSubmitted(true);
+        alert("Quiz submitted! (Add backend logic for evaluation)");
     };
 
     if (!quiz) return (
@@ -37,7 +39,6 @@ export default function QuizPage() {
     return (
         <div className="page-container">
             <div className="card">
-                <button onClick={() => router.back()} className="button button-back mb-6">Back</button>
                 <h1 className="title">{quiz.title}</h1>
 
                 <div className="quiz-questions space-y-6">

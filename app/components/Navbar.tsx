@@ -7,37 +7,33 @@ export default function Navbar() {
     const { data: session } = useSession();
 
     return (
-        <nav className="flex justify-between items-center p-4 bg-blue-600 text-white shadow-md">
-            <h1 className="text-xl font-bold">Quiz App</h1>
+        <nav className="bg-blue-600 text-white shadow-md p-4 flex items-center justify-center justify-between">
             <div>
                 {session ? (
-                    <>
-                        <span className="mr-4">Welcomeee, {session.user?.name}!</span>
-                        <Link href="/create-quiz">
-                            <button className="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg mr-4 transition">
-                                ➕ Create Quiz
-                            </button>
-                        </Link>
-                        <Link href="/quizzes">
-                            <button className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg transition">
-                                🏆 Play Quizzes
-                            </button>
-                        </Link>
+                    <div className="card">
+                        <div className="flex items-center gap-4 flex-wrap">
+                            <Link href="/create-quiz">
+                                <button className="button button-create-quiz">
+                                    ➕ Create Quiz
+                                </button>
+                            </Link>
+                            <Link href="/quizzes">
+                                <button className="button button-play-quizzes">
+                                    🏆 Play Quizzes
+                                </button>
+                            </Link>
+                            <Link href="/leaderboard">
+                                <button className="button button-leaderboard">
+                                    Leader board
+                                </button>
+                            </Link>
 
-                        <button
-                            onClick={() => signOut()}
-                            className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition"
-                        >
-                            Sign Out
-                        </button>
-                    </>
-                ) : (
-                    <Link href="/login">
-                        <button className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg transition">
-                            Login
-                        </button>
-                    </Link>
-                )}
+                            <button onClick={() => signOut()} className="button button-logout">
+                                Sign Out
+                            </button>
+                        </div>
+                    </div>
+                ) : (<div></div>)}
             </div>
         </nav>
     );

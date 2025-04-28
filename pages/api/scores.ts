@@ -5,38 +5,30 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-
-type QuestionInput = {
-    text: string;
-};
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "POST") {
         return res.status(405).json({ message: "Method not allowed" });
     }
 
-
+    // Retrieve session
     const session = await getServerSession(req, res, authOptions);
-    console.log("Session:", session);
-
     if (!session || !session.user?.id) {
         return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const { title, questions }: { title: string; questions: QuestionInput[] } = req.body; // Define the type for the request body
+    const { quizId, points } = req.body;
 
     try {
-        const quiz = await prisma.quiz.create({
+        const score = await prisma.score.create({
             data: {
-                title,
-                userId: Number(session.user.id), // Convert ID to number
-                questions: {
-                    create: questions.map((q: QuestionInput) => ({ text: q.text })), // Specify the type for q
-                },
+                userId: Number(session.user.id),
+                quizId: Number(quizId),
+                points: points,
+                value: points,
             },
         });
 
-        return res.status(201).json(quiz);
+        return res.status(201).json(score);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Something went wrong" });

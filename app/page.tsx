@@ -8,23 +8,26 @@ export default function Home() {
     const { data: session } = useSession();
 
     return (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
+        <div className="page-container">
+            <div className="card">
+                {!session ? (
+                    <>
+                        <h1 className="title">very epic website :P</h1>
+                        <div className="button-group">
+                            <Link href="/login" passHref><button className="button button-login">Login</button></Link>
+                            <Link href="/register" passHref><button className="button button-register">Register</button></Link>
+                            <button onClick={() => signIn("google")} className="button button-google">Sign in with Google</button>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <h1 className="title">Welcome, {session.user?.name || "User"}!</h1>
+                        <p className="email-text">Email: {session.user?.email || "No email provided"}</p>
+                        {session.user?.image && (<div className="flex justify-center mb-6"><img src={session.user.image} alt="Profile" className="profile-image" /></div>)}
+                    </>
+                )}
+            </div>
             <Navbar />
-            {!session ? (
-                <>
-                    <h1>very epic website :P</h1>
-                    <Link href="/login"><button>Login</button></Link>
-                    <Link href="/pages/api/register"><button>Register</button></Link>
-                    <button onClick={() => signIn("google")}>Sign in with Google</button>
-                </>
-            ) : (
-                <>
-                    <h1>Welcome, {session.user?.name || "User"}!</h1>
-                    <p>Email: {session.user?.email || "No email provided"}</p>
-                    <img src={session.user?.image || ""} alt="Profile" style={{ borderRadius: "50%", width: "100px" }} />
-                    <button onClick={() => signOut()}>Sign out</button>
-                </>
-            )}
         </div>
     );
 }
