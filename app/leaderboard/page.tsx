@@ -4,18 +4,28 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import "../globals.css";
 
+type LeaderboardEntry = {
+    userId: number;
+    totalPoints: number;
+    user: {
+        name: string;
+        email: string;
+        image: string | null;
+    };
+};
+
 export default function Leaderboard() {
-    const [scores, setScores] = useState<any[]>([]);
+    const [scores, setScores] = useState<LeaderboardEntry[]>([]);
     const router = useRouter();
 
     useEffect(() => {
         fetch("/api/leaderboard")
             .then((res) => res.json())
-            .then((data) => {
+            .then((data: LeaderboardEntry[]) => {
                 setScores(data);
             })
             .catch((error) => {
-                console.error('Error fetching leaderboard:', error);
+                console.error("Error fetching leaderboard:", error);
             });
     }, []);
 
@@ -49,4 +59,3 @@ export default function Leaderboard() {
         </div>
     );
 }
-
