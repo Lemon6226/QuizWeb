@@ -25,7 +25,6 @@ export default async function handler(
         });
 
         const userIds = scores.map((s) => s.userId);
-
         const users = await prisma.user.findMany({
             where: { id: { in: userIds } },
         });
@@ -38,7 +37,7 @@ export default async function handler(
 
         return res.status(200).json(final);
     } catch (error) {
-        console.error("Leaderboard fetch error:", error);
+        console.error("Leaderboard error:", error);
         return res.status(500).json({ error: "Internal server error" });
     }
 }
