@@ -5,7 +5,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-
 type QuestionInput = {
     text: string;
 };
@@ -15,23 +14,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(405).json({ message: "Method not allowed" });
     }
 
-
     const session = await getServerSession(req, res, authOptions);
     console.log("Session:", session);
 
-    if (!session || !session.user?.id) {
+    if (!session || !session.user?.email) {
         return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const { title, questions }: { title: string; questions: QuestionInput[] } = req.body; // Define the type for the request body
-
     try {
+        const user = await prisma.user.findUnique({
+            where: { email: session.user.email },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const { title, questions }: { title: string; questions: QuestionInput[] } = req.body; // Define the type for the request body
+
         const quiz = await prisma.quiz.create({
             data: {
                 title,
-                userId: Number(session.user.id), // Convert ID to number
+                userId: user.id,
                 questions: {
-                    create: questions.map((q: QuestionInput) => ({ text: q.text })), // Specify the type for q
+                    create: questions.map((q: QuestionInput) => ({ text: q.text })),
                 },
             },
         });

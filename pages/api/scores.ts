@@ -10,20 +10,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(405).json({ message: "Method not allowed" });
     }
 
-    // Retrieve session
     const session = await getServerSession(req, res, authOptions);
-    if (!session || !session.user?.id) {
+    if (!session || !session.user?.email) {
         return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const { quizId, points } = req.body;
-
     try {
+        const user = await prisma.user.findUnique({
+            where: { email: session.user.email },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const { quizId, points } = req.body;
+
         const score = await prisma.score.create({
             data: {
-                userId: Number(session.user.id),
+                userId: user.id,
                 quizId: Number(quizId),
-                points: points,
+                points,
                 value: points,
             },
         });

@@ -15,8 +15,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { name, image } = req.body;
 
     try {
+        if (!session.user?.email) {
+            throw new Error("No email in session")
+        }
         await prisma.user.update({
-            where: { id: Number(session.user.id) },
+            where: { email: (session.user.email) },
             data: { name, image },
         });
 

@@ -11,13 +11,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const session = await getSession({ req });
 
-    if (!session) {
+    if (!session || !session.user?.email) {
         return res.status(401).json({ error: "Unauthorized" });
     }
 
     try {
+        const user = await prisma.user.findUnique({
+            where: { email: session.user.email },
+        });
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
         const quizzes = await prisma.quiz.findMany({
-            where: { userId: Number(session.user.id) },
+            where: { userId: user.id },
             include: { questions: true },
         });
 
