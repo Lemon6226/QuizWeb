@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const scores = await prisma.Score.groupBy({
+        const scores = await prisma.score.groupBy({
             by: ["userId"],
             _sum: { points: true },
             orderBy: { _sum: { points: "desc" } },
