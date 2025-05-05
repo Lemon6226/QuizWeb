@@ -5,8 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import "../app/globals.css";
 
+interface Quiz {
+    id: number;
+    title: string;
+}
+
 export default function Quizzes() {
-    const [quizzes, setQuizzes] = useState<any[]>([]);
+    const [quizzes, setQuizzes] = useState<Quiz[]>([]);
     const router = useRouter();
 
     useEffect(() => {
@@ -20,7 +25,9 @@ export default function Quizzes() {
             <div className="card">
                 <button onClick={() => router.back()} className="button button-back mb-6">Back</button>
                 <h1 className="title mb-8">Available Quizzes</h1>
-                {quizzes.length === 0 ? (<p className="text-gray-500 text-center">No quizzes found.</p>) : (
+                {quizzes.length === 0 ? (
+                    <p className="text-gray-500 text-center">No quizzes found.</p>
+                ) : (
                     <ul className="space-y-4">
                         {quizzes.map((quiz) => (
                             <li key={quiz.id} className="quiz-item">
