@@ -41,7 +41,7 @@ export default function QuizPage() {
 
     const currentQuestion = quiz.questions[currentQuestionIndex];
 
-    const handleAnswerSelect = (answer: string) => {
+    const handleAnswerSelect = ( answer: string) => {
         setSelectedAnswer(answer);
     };
 
@@ -66,45 +66,45 @@ export default function QuizPage() {
 
     return (
         <div className="page-container">
-        <div className="card">
-        <h1 className="title mb-6">{quiz.title}</h1>
-    {showScore ? (
-        <>
-            <p className="text-center text-lg mb-4">
-            Your score: {score} / {quiz.questions.length}
-    </p>
-    <button onClick={handleRestart} className="button button-green w-full">
-        Restart Quiz
-    </button>
-    </>
-    ) : (
-        <>
-            <p className="mb-4 text-lg">{currentQuestion.text}</p>
-            <ul className="space-y-2 mb-4">
-        {currentQuestion.options.map((option) => (
-                <li key={option}>
-                <button
-                    onClick={() => handleAnswerSelect(option)}
-        className={`button w-full text-left ${
-            selectedAnswer === option ? "button-selected" : "button-light"
-        }`}
-        disabled={selectedAnswer !== null}
-    >
-        {option}
-        </button>
-        </li>
-    ))}
-        </ul>
-        <button
-        onClick={handleNextQuestion}
-        className="button button-green w-full"
-        disabled={selectedAnswer === null}
-    >
-        {currentQuestionIndex + 1 === quiz.questions.length ? "Finish" : "Next"}
-        </button>
-        </>
-    )}
-    </div>
-    </div>
-);
+            <div className="card">
+                <h1 className="title mb-6">{quiz.title}</h1>
+                {showScore ? (
+                    <>
+                        <p className="text-center text-lg mb-4">
+                            Your score: {score} / {quiz.questions.length}
+                        </p>
+                        <button onClick={handleRestart} className="button button-green w-full">
+                            Restart Quiz
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <p className="mb-4 text-lg">{currentQuestion.text}</p>
+                        <ul className="space-y-2 mb-4">
+                            {currentQuestion.options.map((option) => (
+                                <li key={option}>
+                                    <button
+                                        onClick={() => handleAnswerSelect(option)}
+                                        className={`button w-full text-left ${
+                                            selectedAnswer === option ? "button-selected" : "button-light"
+                                        }`}
+                                        disabled={selectedAnswer !== null}
+                                    >
+                                        {option}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                        <button
+                            onClick={handleNextQuestion}
+                            className="button button-green w-full"
+                            disabled={selectedAnswer === null}
+                        >
+                            {currentQuestionIndex + 1 === quiz.questions.length ? "Finish" : "Next"}
+                        </button>
+                    </>
+                )}
+            </div>
+        </div>
+    );
 }
