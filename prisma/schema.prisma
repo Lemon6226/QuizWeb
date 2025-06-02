@@ -3,23 +3,22 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
   password String
   name     String?
   image    String?
 
-  scores   Score[]
-  quizzes  Quiz[]   @relation("UserQuizzes")
+  scores  Score[]
+  quizzes Quiz[]  @relation("UserQuizzes")
 
   createdAt DateTime @default(now())
 }
-
 
 model Quiz {
   id        Int        @id @default(autoincrement())
@@ -28,7 +27,7 @@ model Quiz {
   userId    Int
   user      User       @relation("UserQuizzes", fields: [userId], references: [id])
 
-  scores    Score[]
+  scores Score[]
 }
 
 model Question {
@@ -39,14 +38,14 @@ model Question {
 }
 
 model Score {
-  id      Int    @id @default(autoincrement())
-  value   Int
-  points  Int
-  userId  Int
-  quizId  Int
+  id     Int @id @default(autoincrement())
+  value  Int
+  points Int
+  userId Int
+  quizId Int
 
-  user    User   @relation(fields: [userId], references: [id])
-  quiz    Quiz   @relation(fields: [quizId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  quiz Quiz @relation(fields: [quizId], references: [id])
 
   createdAt DateTime @default(now())
 }
