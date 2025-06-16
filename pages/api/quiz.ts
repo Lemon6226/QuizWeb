@@ -34,7 +34,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 title,
                 userId:fallbackUserId,
                 questions: {
-                    create: questions.map((q: QuestionInput) => ({ text: q.text })),
+                    create: questions.map((q: QuestionInput) => ({
+                        text: q.text,
+                        options: q.options,
+                        answer: q.answer,
+                    }))
+
                 },
             },
         });
