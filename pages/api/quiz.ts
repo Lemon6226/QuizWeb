@@ -5,6 +5,8 @@ const prisma = new PrismaClient();
 
 type QuestionInput = {
     text: string;
+    options: [string];
+    answer: string;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -26,14 +28,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(400).json({ message: "Questions are required" });
         }
 
+
         const quiz = await prisma.quiz.create({
             data: {
                 title,
-                userId: fallbackUserId,
+                userId:fallbackUserId,
                 questions: {
-                    create: questions.map((q) => ({
-                        text: q.text,
-                    })),
+                    create: questions.map((q: QuestionInput) => ({ text: q.text })),
                 },
             },
         });
