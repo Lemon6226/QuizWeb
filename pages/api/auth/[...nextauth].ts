@@ -39,7 +39,7 @@ export const authOptions: AuthOptions = {
                 }
 
                 return {
-                    id: user.id.toString(), // Convert id to string
+                    id: user.id.toString(),
                     name: user.name,
                     email: user.email,
                 };
