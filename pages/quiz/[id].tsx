@@ -1,6 +1,5 @@
-"use client";
 import { GetServerSideProps } from 'next';
-import {useState} from "react";
+import { useState } from 'react';
 
 interface Question {
     id: number;
@@ -103,6 +102,28 @@ export default function QuizPage({ quiz }: QuizPageProps) {
     );
 }
 
+// Example mock data source
+const mockQuizzes: Quiz[] = [
+    {
+        id: 1,
+        title: "Sample Quiz",
+        questions: [
+            {
+                id: 1,
+                text: "What is 2 + 2?",
+                options: ["3", "4", "5"],
+                answer: "4",
+            },
+            {
+                id: 2,
+                text: "What is the capital of France?",
+                options: ["Berlin", "Paris", "Madrid"],
+                answer: "Paris",
+            },
+        ],
+    },
+];
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.params!;
 
@@ -110,13 +131,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return { props: { quiz: null } };
     }
 
-    try {
-        const res = await fetch(`${process.env.NEXTAUTH_URL}/api/quiz/${id}`);
-        if (!res.ok) throw new Error('Failed to fetch');
-        const quiz: Quiz = await res.json();
-        return { props: { quiz } };
-    } catch (err) {
-        console.error('Fetch error', err);
+    const quiz = mockQuizzes.find((q) => q.id === parseInt(id as string));
+
+    if (!quiz) {
         return { props: { quiz: null } };
     }
+
+    return { props: { quiz } };
 };
