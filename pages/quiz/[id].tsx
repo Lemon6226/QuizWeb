@@ -27,12 +27,18 @@ export default function QuizPage() {
     const [showScore, setShowScore] = useState(false);
 
     useEffect(() => {
-        if (!id) return;
+        if (!id || Array.isArray(id)) return;
 
         fetch(`/api/quiz/${id}`)
-            .then((res) => res.json())
+      .then((res) => {
+            if (!res.ok) throw new Error("Fetch failed");
+            return res.json();
+        })
             .then((data: Quiz) => setQuiz(data))
-            .catch(() => setQuiz(null));
+            .catch((err) => {
+                console.error("Fetch error", err);
+                setQuiz(null);
+            });
     }, [id]);
 
     if (!quiz) {
