@@ -1,6 +1,10 @@
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
 
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
 interface Question {
     id: number;
     text: string;
@@ -102,27 +106,6 @@ export default function QuizPage({ quiz }: QuizPageProps) {
     );
 }
 
-// Example mock data source
-const mockQuizzes: Quiz[] = [
-    {
-        id: 1,
-        title: "Sample Quiz",
-        questions: [
-            {
-                id: 1,
-                text: "What is 2 + 2?",
-                options: ["3", "4", "5"],
-                answer: "4",
-            },
-            {
-                id: 2,
-                text: "What is the capital of France?",
-                options: ["Berlin", "Paris", "Madrid"],
-                answer: "Paris",
-            },
-        ],
-    },
-];
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.params!;
@@ -131,7 +114,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return { props: { quiz: null } };
     }
 
-    const quiz = mockQuizzes.find((q) => q.id === parseInt(id as string));
+    const quiz = await prisma.quiz.findUnique({
+        where: { id: parseInt(id as string) },
+        include: {
+            questions: {
+                select: {
+                    id: true,
+                    text: true,
+                },
+            },
+        },
+    });
 
     if (!quiz) {
         return { props: { quiz: null } };
