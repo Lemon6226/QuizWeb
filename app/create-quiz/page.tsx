@@ -15,11 +15,11 @@ export default function CreateQuiz() {
     const addQuestion = () => {
         setQuestions([...questions, { text: "", options: [""], answer: ""}]);
     };
-    const updateQuestion = (index: number, text: string) => {
-        const newQuestions = [...questions];
-        newQuestions[index].text = text;
-        setQuestions(newQuestions);
-    };
+   // const updateQuestion = (index: number, text: string) => {
+    //    const newQuestions = [...questions];
+    //    newQuestions[index].text = text;
+     //   setQuestions(newQuestions);
+   // };
 
     const handleSubmit = async () => {
         if (!session) {
