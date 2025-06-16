@@ -1,7 +1,6 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { GetServerSideProps } from 'next';
+import {useState} from "react";
 
 interface Question {
     id: number;
@@ -16,38 +15,27 @@ interface Quiz {
     questions: Question[];
 }
 
-export default function QuizPage() {
-    const router = useRouter();
-    const { id } = router.query;
+interface QuizPageProps {
+    quiz: Quiz | null;
+}
 
-    const [quiz, setQuiz] = useState<Quiz | null>(null);
+export default function QuizPage({ quiz }: QuizPageProps) {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
 
-    useEffect(() => {
-        if (!id || Array.isArray(id)) return;
-
-        fetch(`/api/quiz/${id}`)
-      .then((res) => {
-            if (!res.ok) throw new Error("Fetch failed");
-            return res.json();
-        })
-            .then((data: Quiz) => setQuiz(data))
-            .catch((err) => {
-                console.error("Fetch error", err);
-                setQuiz(null);
-            });
-    }, [id]);
-
     if (!quiz) {
-        return <div className="page-container"><p>Loading quiz...</p></div>;
+        return (
+            <div className="page-container">
+                <p>Quiz not found or failed to load.</p>
+            </div>
+        );
     }
 
     const currentQuestion = quiz.questions[currentQuestionIndex];
 
-    const handleAnswerSelect = ( answer: string) => {
+    const handleAnswerSelect = (answer: string) => {
         setSelectedAnswer(answer);
     };
 
@@ -92,7 +80,7 @@ export default function QuizPage() {
                                     <button
                                         onClick={() => handleAnswerSelect(option)}
                                         className={`button w-full text-left ${
-                                            selectedAnswer === option ? "button-selected" : "button-light"
+                                            selectedAnswer === option ? 'button-selected' : 'button-light'
                                         }`}
                                         disabled={selectedAnswer !== null}
                                     >
@@ -106,17 +94,29 @@ export default function QuizPage() {
                             className="button button-green w-full"
                             disabled={selectedAnswer === null}
                         >
-                            {currentQuestionIndex + 1 === quiz.questions.length ? "Finish" : "Next"}
+                            {currentQuestionIndex + 1 === quiz.questions.length ? 'Finish' : 'Next'}
                         </button>
                     </>
                 )}
             </div>
         </div>
     );
-
-
 }
 
-export async function getServerSideProps() {
-    return { props: {} };
-}
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { id } = context.params!;
+
+    if (!id || Array.isArray(id)) {
+        return { props: { quiz: null } };
+    }
+
+    try {
+        const res = await fetch(`${process.env.NEXTAUTH_URL}/api/quiz/${id}`);
+        if (!res.ok) throw new Error('Failed to fetch');
+        const quiz: Quiz = await res.json();
+        return { props: { quiz } };
+    } catch (err) {
+        console.error('Fetch error', err);
+        return { props: { quiz: null } };
+    }
+};
