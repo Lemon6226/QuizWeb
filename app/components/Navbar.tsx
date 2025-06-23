@@ -17,7 +17,7 @@ export default function Navbar() {
                                     ➕ Create Quiz
                                 </button>
                             </Link>
-                            <Link href="/pages/quizzes.tsx">
+                            <Link href="/quizzes">
                                 <button className="button button-play-quizzes">
                                     🏆 Play Quizzes
                                 </button>
