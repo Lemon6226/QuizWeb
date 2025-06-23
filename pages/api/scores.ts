@@ -26,12 +26,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const { quizId, points } = req.body;
 
+        console.log("quizId:", quizId, "points:", points);
+        console.log("Converted quizId:", Number(quizId), "Converted points:", Number(points));
+
         const score = await prisma.score.create({
             data: {
                 userId: user.id,
                 quizId: Number(quizId),
-                points,
-                value: points,
+                points: Number(points),
+                value: Number(points),
             },
         });
 

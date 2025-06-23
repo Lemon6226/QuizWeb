@@ -15,11 +15,11 @@ export default function CreateQuiz() {
     const addQuestion = () => {
         setQuestions([...questions, { text: "", options: [""], answer: ""}]);
     };
-   // const updateQuestion = (index: number, text: string) => {
+    // const updateQuestion = (index: number, text: string) => {
     //    const newQuestions = [...questions];
     //    newQuestions[index].text = text;
-     //   setQuestions(newQuestions);
-   // };
+    //   setQuestions(newQuestions);
+    // };
 
     const handleSubmit = async () => {
         if (!session) {
@@ -108,7 +108,7 @@ export default function CreateQuiz() {
                                         newQuestions[qIndex].options.push("");
                                         setQuestions(newQuestions);
                                     }}
-                                    className="button button-light"
+                                    className="button button-blue"
                                 >
                                     Add Option
                                 </button>
@@ -138,8 +138,4 @@ export default function CreateQuiz() {
         </div>
     );
 }
-
-
-
-
 

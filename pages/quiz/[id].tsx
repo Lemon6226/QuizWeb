@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
+import { useRouter } from "next/router";
 
 import { PrismaClient } from "@prisma/client";
 
@@ -27,6 +28,7 @@ export default function QuizPage({ quiz }: QuizPageProps) {
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
+    const router = useRouter();
 
     if (!quiz) {
         return (
@@ -42,7 +44,7 @@ export default function QuizPage({ quiz }: QuizPageProps) {
         setSelectedAnswer(answer);
     };
 
-    const handleNextQuestion = () => {
+    const handleNextQuestion = async () => {
         if (selectedAnswer === currentQuestion.answer) {
             setScore(score + 1);
         }
@@ -51,6 +53,22 @@ export default function QuizPage({ quiz }: QuizPageProps) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
             setShowScore(true);
+
+            const finalScore = selectedAnswer === currentQuestion.answer ? score + 1 : score;
+            try {
+                await fetch('/api/scores', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        quizId: quiz.id,
+                        points: finalScore,
+                    }),
+                });
+            } catch (err) {
+                console.error('Failed to save score', err);
+            }
         }
     };
 
@@ -64,6 +82,7 @@ export default function QuizPage({ quiz }: QuizPageProps) {
     return (
         <div className="page-container">
             <div className="card">
+                <button onClick={() => router.back()} className="button button-back mb-6">Back</button>
                 <h1 className="title mb-6">{quiz.title}</h1>
                 {showScore ? (
                     <>
@@ -121,6 +140,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 select: {
                     id: true,
                     text: true,
+                    options: true,
+                    answer: true,
                 },
             },
         },

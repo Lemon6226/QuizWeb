@@ -39,7 +39,7 @@ export const authOptions: AuthOptions = {
                 }
 
                 return {
-                    id: user.id.toString(), // Ensure id is a string
+                    id: user.id.toString(),
                     name: user.name,
                     email: user.email,
                 };
