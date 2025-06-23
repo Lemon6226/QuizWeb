@@ -9,6 +9,7 @@ import { Session, User } from "next-auth";
 const prisma = new PrismaClient();
 
 export const authOptions: AuthOptions = {
+    secret: process.env.NEXTAUTH_SECRET,
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -46,7 +47,9 @@ export const authOptions: AuthOptions = {
             },
         }),
     ],
-    session: { strategy: "jwt" },
+    session: {
+        strategy: "jwt",
+    },
     callbacks: {
         async jwt({ token, user }: { token: JWT; user?: User }) {
             if (user) {

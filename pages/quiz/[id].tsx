@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 
 import { PrismaClient } from "@prisma/client";
 
+import "../../app/globals.css";
+
 const prisma = new PrismaClient();
 
 interface Question {
