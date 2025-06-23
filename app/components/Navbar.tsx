@@ -17,7 +17,7 @@ export default function Navbar() {
                                     ➕ Create Quiz
                                 </button>
                             </Link>
-                            <Link href="/quizzes">
+                            <Link href="/pages/quizzes">
                                 <button className="button button-play-quizzes">
                                     🏆 Play Quizzes
                                 </button>
