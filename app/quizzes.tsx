@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import "../app/globals.css";
+import "./globals.css";
 
 interface Quiz {
     id: number;
